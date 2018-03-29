@@ -14,5 +14,6 @@ At the moment the shader selection includes:
 - InvertStrobe
 - Mirror
 - Turbolence
+- FXAA
    
 This project is a bit in its alpha state now, but it is stable enough to be used in projects. I will add more shaders depending on the projects i'm working on at the moment. Every contribution is also welcome, it's easy to understand how to implement new shaders by looking at the included ones.   

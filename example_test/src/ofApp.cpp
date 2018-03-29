@@ -60,15 +60,18 @@ void ofApp::update(){
 
                 static const float nOffset = 0.3f;
                 static const int points = 3;
-                nCursor += 0.002;
+                nCursor += 0.0007;
                 
                 ofFill();
+                ofSetColor(255);
                 for( int k=0; k<3; ++k){
+                    /*
                     switch( k ){
                         case 0: ofSetColor( 255, 0, 0, 245 ); break;
                         case 1: ofSetColor( 0, 255, 0, 245 ); break;
                         case 2: ofSetColor( 0, 0, 255, 245 ); break;
                     }
+                    */ 
                     ofBeginShape();
                     for(int i=0; i<points; ++i){
                         int x = ofNoise((k*points+i)*nOffset, nCursor)*fbo.getWidth();
@@ -77,7 +80,7 @@ void ofApp::update(){
                     }
                     ofEndShape(true);
                 }
-                
+                /*
                 ofNoFill();
                 ofSetColor(255);
                 for( int k=0; k<3; ++k){
@@ -90,6 +93,7 @@ void ofApp::update(){
                     }
                     ofEndShape(true);
                 }
+                */ 
             fbo.end();
             frag.apply( fbo );
         }
