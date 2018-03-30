@@ -62,8 +62,9 @@ void ofApp::update(){
                 static const int points = 3;
                 nCursor += 0.0007;
                 
-                ofFill();
-                ofSetColor(255);
+                //ofFill();
+                ofNoFill();
+                ofSetColor(255, 80, 80 );
                 for( int k=0; k<3; ++k){
                     /*
                     switch( k ){

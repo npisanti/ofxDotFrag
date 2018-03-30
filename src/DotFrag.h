@@ -38,6 +38,7 @@ public:
         ofParameter<bool>  bActive;
         ofParameter<int>   delay;
         ofParameter<float> speed;
+        ofParameter<int>   passes;
         
     void flush(); // clears all the buffers
     void reload(); // reloads the shader
@@ -54,6 +55,7 @@ protected:
     void framebuffer( int maxdelay ); // delay buffer, delay is in u_tex1
     void pingpong(); // ping pong buffer using u_tex1 for old frame
     void timewarp(); // add controls for playback speed of u_time
+    void multipass( int maxpasses ); // repeat the same process again
 
     void uniform( ofParameter<float> & param );
     void uniform( ofParameter<int> & param );
@@ -70,7 +72,9 @@ protected:
 
     // to be overloaded for calculating additional uniforms
     virtual void preshading( float w, float h ) {}; 
-
+    
+    // direct acces to shader
+    ofShader        shader;
 
 private:
     void updateUniforms( float w, float h );
@@ -80,7 +84,6 @@ private:
     void update( float w, float h ); // update for graphic shaders
     void draw( ofFbo & fbo  );
 
-    ofShader        shader;
 
     unsigned int    bIndex;
     vector<ofFbo>  	buffers;

@@ -19,14 +19,15 @@ const string ofx::dotfrag::Delay::code = OFXDOTFRAGSOURCE(
 
     uniform vec2 u_resolution;
     uniform float u_time;
+    
     uniform sampler2D u_tex0;
     uniform sampler2D u_tex1;
+    varying vec2 st;
     
     uniform float u_feedback;
     uniform int u_blendmode;
 
     void main (void) {
-        vec2 st = gl_FragCoord.xy/u_resolution.xy;
         
         vec4 now = texture2D(u_tex0, st);
         vec4 delay = texture2D(u_tex1, st);

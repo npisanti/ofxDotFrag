@@ -10,16 +10,22 @@ ofx::dotfrag::Base::Base() {
 #ifdef __ARM_ARCH
     vertexSrc  << "attribute vec4 position;\n";
     vertexSrc  << "attribute vec2 texcoord;\n";
+    vertexSrc  << "uniform vec2 u_resolution;\n";
+    vertexSrc  << "varying vec2 st;\n";
     vertexSrc  << "uniform mat4 modelViewProjectionMatrix;\n";
     vertexSrc  << "varying vec2 texcoord0;\n";
     vertexSrc  << "void main(void){\n";
     vertexSrc  << "\tgl_Position = modelViewProjectionMatrix * position;\n";
     vertexSrc  << "\ttexcoord0 = texcoord;\n";
+    vertexSrc  << "\tst = texcoord0/u_resolution.xy;\n";
     vertexSrc  << "}\n";
 #else
     vertexSrc  << "varying vec2 texcoord0;\n";
+    vertexSrc  << "uniform vec2 u_resolution;\n";
+    vertexSrc  << "varying vec2 st;\n";
     vertexSrc  << "void main(void){\n";
     vertexSrc  << "\ttexcoord0 = gl_Vertex.xy;\n";
+    vertexSrc  << "\tst = texcoord0/u_resolution.xy;\n";
     vertexSrc  << "\tgl_Position = ftransform();\n";
     vertexSrc  << "}\n";
 #endif       
@@ -27,6 +33,10 @@ ofx::dotfrag::Base::Base() {
     bIndex = 0;
     bDelay = false;
     buffers.resize(1);
+
+    delay = 0;
+    
+    passes = 1;
 
     uniforms.reserve(12);
 
@@ -106,6 +116,10 @@ void ofx::dotfrag::Base::name( string value ) {
 void ofx::dotfrag::Base::timewarp(){
     parameters.add( speed.set("speed", 1.0f, 0.0f, 2.0f) );
     bTimeWarp = true;
+}
+
+void ofx::dotfrag::Base::multipass( int maxpasses ){
+    parameters.add( passes.set("passes", 1, 1, maxpasses) );
 }
 
 void ofx::dotfrag::Base::uniform( ofParameter<float> & param, string uniformName ){
@@ -226,14 +240,17 @@ void ofx::dotfrag::Base::draw( ofFbo & fbo  ){
 
 void ofx::dotfrag::Base::apply( ofFbo & fbo ){
     if(bActive){
-        update( fbo );
-        fbo.begin();
-            ofClear(0,0,0,0);
-            ofSetColor(255, 255, 255, 255);
-            int now = bIndex-1;
-            if(now<0) now+=buffers.size();
-            buffers[now].draw(0,0);
-        fbo.end();
+        for( int i=0; i<passes; ++i){ // there is shurely a faster way to do this
+            update( fbo );            
+
+            fbo.begin();
+                ofClear(0,0,0,0);
+                ofSetColor(255, 255, 255, 255);
+                int now = bIndex-1;
+                if(now<0) now+=buffers.size();
+                buffers[now].draw(0,0);
+            fbo.end();
+        }
     }
 }
 

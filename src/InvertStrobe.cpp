@@ -17,14 +17,14 @@ const string ofx::dotfrag::InvertStrobe::code = OFXDOTFRAGSOURCE(
     uniform vec2 u_resolution;
     uniform float u_time;
     uniform sampler2D u_tex0;
+    varying vec2 st;
 
     uniform float u_pulse;
 
     void main (void) {
-        vec2 st = gl_FragCoord.xy/u_resolution.xy;
         vec4 source = texture2D( u_tex0, st );
                 
-        float gate = step( u_pulse, fract( u_time*4.0 ) );
+        float gate = step( u_pulse, fract( u_time*0.8 ) );
                 
         vec3 invert = 1.0 - source.rgb;
         

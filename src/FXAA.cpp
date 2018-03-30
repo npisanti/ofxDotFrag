@@ -15,18 +15,87 @@
 
 ofx::dotfrag::FXAA::FXAA() {
     name("fxaa");
-    source( code );
+
+    shader.setupShaderFromSource( GL_VERTEX_SHADER, vertex );
+    shader.setupShaderFromSource( GL_FRAGMENT_SHADER, fragment );
+    shader.bindDefaults();
+    shader.linkProgram();
+
 }
 
+const string ofx::dotfrag::FXAA::vertex = OFXDOTFRAGSOURCE(
 
-const string ofx::dotfrag::FXAA::code = OFXDOTFRAGSOURCE(
+#ifdef __ARM_ARCH
+
+    attribute vec4 position;
+    attribute vec2 texcoord;
+    uniform mat4 modelViewProjectionMatrix;
+    varying vec2 texcoord0;
+    varying vec2 st;
+
+    varying vec2 v_coord_NW;
+    varying vec2 v_coord_NE;
+    varying vec2 v_coord_SW;
+    varying vec2 v_coord_SE;
+    varying vec2 texeldim;
+
+    void main(void){
+        gl_Position = modelViewProjectionMatrix * position;
+        texcoord0 = texcoord;
+        
+        st = texcoord0/u_resolution.xy;
+        
+        texeldim = vec2(1.0) / u_resolution;
+        v_coord_NW = st + vec2( -1.0, -1.0 ) * texeldim;
+        v_coord_NE = st + vec2(  1.0, -1.0 ) * texeldim;
+        v_coord_SW = st + vec2( -1.0,  1.0 ) * texeldim;
+        v_coord_SE = st + vec2(  1.0,  1.0 ) * texeldim;
+    }
+    
+#else
+
+    varying vec2 texcoord0;
+    uniform vec2 u_resolution;
+    varying vec2 st;
+    
+    varying vec2 v_coord_NW;
+    varying vec2 v_coord_NE;
+    varying vec2 v_coord_SW;
+    varying vec2 v_coord_SE;
+    varying vec2 texeldim;
+ 
+    void main(void){
+        texcoord0 = gl_Vertex.xy;
+        st = texcoord0/u_resolution.xy;
+        
+        texeldim = vec2(1.0) / u_resolution;
+        v_coord_NW = st + vec2( -1.0, -1.0 ) * texeldim;
+        v_coord_NE = st + vec2(  1.0, -1.0 ) * texeldim;
+        v_coord_SW = st + vec2( -1.0,  1.0 ) * texeldim;
+        v_coord_SE = st + vec2(  1.0,  1.0 ) * texeldim;
+
+        gl_Position = ftransform();
+    }
+    
+#endif       
+    
+); //OFXDOTFRAGSOURCE end
+
+const string ofx::dotfrag::FXAA::fragment = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;
     #endif
 
+    varying vec2 st;
     uniform sampler2D u_tex0;
     uniform vec2 u_resolution;
+
+    varying vec2 v_coord_NW;
+    varying vec2 v_coord_NE;
+    varying vec2 v_coord_SW;
+    varying vec2 v_coord_SE;
+    varying vec2 texeldim;
 
     const float FXAA_REDUCE_MIN = 1.0/128.0;
     const float FXAA_REDUCE_MUL = 1.0/8.0;
@@ -34,14 +103,10 @@ const string ofx::dotfrag::FXAA::code = OFXDOTFRAGSOURCE(
 
     void main() {
         
-        vec2 st = gl_FragCoord.xy/u_resolution.xy;
-        
-        vec2 texeldim = vec2(1.0) / u_resolution.xy;
-        
-        vec3 rgbNW = texture2D( u_tex0, st + vec2( -1.0, -1.0 ) * texeldim ).xyz;
-        vec3 rgbNE = texture2D( u_tex0, st + vec2(  1.0, -1.0 ) * texeldim ).xyz;
-        vec3 rgbSW = texture2D( u_tex0, st + vec2( -1.0,  1.0 ) * texeldim ).xyz;
-        vec3 rgbSE = texture2D( u_tex0, st + vec2(  1.0,  1.0 ) * texeldim ).xyz;
+        vec3 rgbNW = texture2D( u_tex0, v_coord_NW ).xyz;
+        vec3 rgbNE = texture2D( u_tex0, v_coord_NE ).xyz;
+        vec3 rgbSW = texture2D( u_tex0, v_coord_SW ).xyz;
+        vec3 rgbSE = texture2D( u_tex0, v_coord_SE ).xyz;
         vec4 rgbaM = texture2D( u_tex0, st );
         vec3 rgbM  = rgbaM.rgb;
         float opacity  = rgbaM.a;
@@ -69,12 +134,12 @@ const string ofx::dotfrag::FXAA::code = OFXDOTFRAGSOURCE(
                       dir * rcpDirMin)) * u_resolution;
         
         vec3 rgbA = 0.5 * (
-                           texture2D( u_tex0, st + dir * texeldim * ( 1.0 / 3.0 - 0.5 ) ).xyz +
-                           texture2D( u_tex0, st + dir * texeldim * ( 2.0 / 3.0 - 0.5 ) ).xyz );
+                           texture2D( u_tex0, st + dir * (texeldim * ( 1.0 / 3.0 - 0.5 )) ).xyz +
+                           texture2D( u_tex0, st + dir * (texeldim * ( 2.0 / 3.0 - 0.5 )) ).xyz );
         
         vec3 rgbB = rgbA * 0.5 + 0.25 * (
-                                         texture2D( u_tex0, st + dir * texeldim * -0.5 ).xyz +
-                                         texture2D( u_tex0, st + dir * texeldim *  0.5 ).xyz );
+                                         texture2D( u_tex0, st + dir * (texeldim * -0.5) ).xyz +
+                                         texture2D( u_tex0, st + dir * (texeldim *  0.5) ).xyz );
         
         float lumaB = dot( rgbB, luma );
         

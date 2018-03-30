@@ -17,6 +17,7 @@ const string ofx::dotfrag::Turbolence::code = OFXDOTFRAGSOURCE(
     uniform vec2 u_resolution;
     uniform float u_time;
     uniform sampler2D u_tex0;
+    varying vec2 st;
 
     uniform float u_amount_x;
     uniform float u_amount_y;
@@ -26,15 +27,15 @@ const string ofx::dotfrag::Turbolence::code = OFXDOTFRAGSOURCE(
     }
 
     void main(){
-        vec2 st = gl_FragCoord.xy/u_resolution.xy;
-
+        vec2 dt;
+        
         float amtx = u_amount_x * u_amount_x * 0.2;
         float amty = u_amount_y * u_amount_y * 0.2;
-
-        st.x += (rand(st, u_time)*2.0 - 1.0) * amtx;  
-        st.y += (rand(st, u_time)*2.0 - 1.0) * amty;
         
-        vec4 source = texture2D(  u_tex0, st );
+        dt.x = st.x + (rand(st, u_time)*2.0 - 1.0) * amtx;  
+        dt.y = st.y + (rand(st, u_time)*2.0 - 1.0) * amty;
+        
+        vec4 source = texture2D(  u_tex0, dt );
 
         gl_FragColor = source;
     }
