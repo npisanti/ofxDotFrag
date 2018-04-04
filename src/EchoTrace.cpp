@@ -13,7 +13,7 @@ ofx::dotfrag::EchoTrace::EchoTrace() {
 }
 
 
-const string ofx::dotfrag::EchoTrace::code = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::EchoTrace::code = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;

@@ -11,7 +11,7 @@ ofx::dotfrag::Delay::Delay() {
 }
 
 
-const string ofx::dotfrag::Delay::code = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::Delay::code = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;

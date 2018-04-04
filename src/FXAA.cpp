@@ -23,7 +23,7 @@ ofx::dotfrag::FXAA::FXAA() {
 
 }
 
-const string ofx::dotfrag::FXAA::vertex = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::FXAA::vertex = OFXDOTFRAGSOURCE(
 
 #ifdef __ARM_ARCH
 
@@ -81,7 +81,7 @@ const string ofx::dotfrag::FXAA::vertex = OFXDOTFRAGSOURCE(
     
 ); //OFXDOTFRAGSOURCE end
 
-const string ofx::dotfrag::FXAA::fragment = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::FXAA::fragment = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;

@@ -19,7 +19,7 @@ ofx::dotfrag::ThreeTones::ThreeTones() {
     source( code );
 }
 
-const string ofx::dotfrag::ThreeTones::code = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::ThreeTones::code = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;

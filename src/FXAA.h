@@ -8,8 +8,8 @@ namespace ofx { namespace dotfrag {
 class FXAA : public Base {
 
 private:
-    static const string vertex;
-    static const string fragment;
+    static const std::string vertex;
+    static const std::string fragment;
 
 public:
 	FXAA();

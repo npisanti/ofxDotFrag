@@ -8,7 +8,7 @@ ofx::dotfrag::InvertStrobe::InvertStrobe() {
     source( code );
 }
 
-const string ofx::dotfrag::InvertStrobe::code = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::InvertStrobe::code = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;

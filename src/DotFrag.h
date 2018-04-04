@@ -62,13 +62,13 @@ protected:
     void uniform( ofParameter<bool> & param );
     void uniform( ofParameter<ofColor> & param );
     
-    void uniform( ofParameter<float> & param, string uniformName );
-    void uniform( ofParameter<int> & param, string uniformName  );
-    void uniform( ofParameter<bool> & param, string uniformName  );
-    void uniform( ofParameter<ofColor> & param, string uniformName  );
+    void uniform( ofParameter<float> & param, std::string uniformName );
+    void uniform( ofParameter<int> & param, std::string uniformName  );
+    void uniform( ofParameter<bool> & param, std::string uniformName  );
+    void uniform( ofParameter<ofColor> & param, std::string uniformName  );
 
-    void load ( string path );
-    void source( string sourcestring );
+    void load ( std::string path );
+    void source( std::string sourcestring );
 
     // to be overloaded for calculating additional uniforms
     virtual void preshading( float w, float h ) {}; 
@@ -86,11 +86,11 @@ private:
 
 
     unsigned int    bIndex;
-    vector<ofFbo>  	buffers;
+    std::vector<ofFbo>  	buffers;
 
     static int      constructed;
 
-    vector<UniformPointer> uniforms;
+    std::vector<UniformPointer> uniforms;
 
     float before;
     float clock;
@@ -99,9 +99,9 @@ private:
     bool bTimeWarp;
 
     bool bDelay;
-    string path;
-    string fullname;
-    stringstream vertexSrc;
+    std::string path;
+    std::string fullname;
+    std::stringstream vertexSrc;
     
     struct UniformPointer{
         UniformPointer(){
@@ -113,7 +113,7 @@ private:
             cp = nullptr;
         }
         int type;
-        string name;
+        std::string name;
         ofParameter<float> *    fp;
         ofParameter<int> *      ip;
         ofParameter<bool> *     bp;

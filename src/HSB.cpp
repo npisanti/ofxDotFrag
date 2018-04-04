@@ -12,7 +12,7 @@ ofx::dotfrag::HSB::HSB() {
 }
 
 
-const string ofx::dotfrag::HSB::code = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::HSB::code = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;

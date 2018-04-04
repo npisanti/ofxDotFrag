@@ -13,7 +13,7 @@ ofx::dotfrag::Mirror::Mirror() {
 
 }
 
-const string ofx::dotfrag::Mirror::vertex = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::Mirror::vertex = OFXDOTFRAGSOURCE(
 
 #ifdef __ARM_ARCH
 
@@ -55,7 +55,7 @@ const string ofx::dotfrag::Mirror::vertex = OFXDOTFRAGSOURCE(
     
 ); //OFXDOTFRAGSOURCE end
 
-const string ofx::dotfrag::Mirror::fragment = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::Mirror::fragment = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;

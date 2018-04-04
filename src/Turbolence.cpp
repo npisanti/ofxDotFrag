@@ -8,7 +8,7 @@ ofx::dotfrag::Turbolence::Turbolence() {
     source( code );
 }
 
-const string ofx::dotfrag::Turbolence::code = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::Turbolence::code = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;

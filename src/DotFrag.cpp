@@ -108,7 +108,7 @@ void ofx::dotfrag::Base::framebuffer( int maxdelay ){
     buffersize( maxdelay+1 );
 }
 
-void ofx::dotfrag::Base::name( string value ) {
+void ofx::dotfrag::Base::name( std::string value ) {
     fullname = value;
     parameters.setName( fullname );
 }
@@ -122,7 +122,7 @@ void ofx::dotfrag::Base::multipass( int maxpasses ){
     parameters.add( passes.set("passes", 1, 1, maxpasses) );
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<float> & param, string uniformName ){
+void ofx::dotfrag::Base::uniform( ofParameter<float> & param, std::string uniformName ){
     parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
@@ -130,7 +130,7 @@ void ofx::dotfrag::Base::uniform( ofParameter<float> & param, string uniformName
     uniforms.back().fp = &param;
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<int> & param, string uniformName ){
+void ofx::dotfrag::Base::uniform( ofParameter<int> & param, std::string uniformName ){
     parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
@@ -138,7 +138,7 @@ void ofx::dotfrag::Base::uniform( ofParameter<int> & param, string uniformName )
     uniforms.back().ip = &param;
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<bool> & param, string uniformName ){
+void ofx::dotfrag::Base::uniform( ofParameter<bool> & param, std::string uniformName ){
     parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
@@ -146,7 +146,7 @@ void ofx::dotfrag::Base::uniform( ofParameter<bool> & param, string uniformName 
     uniforms.back().bp = &param;
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<ofColor> & param, string uniformName  ){
+void ofx::dotfrag::Base::uniform( ofParameter<ofColor> & param, std::string uniformName  ){
     parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
@@ -170,7 +170,7 @@ void ofx::dotfrag::Base::uniform( ofParameter<ofColor> & param ){
     uniform( param, param.getName() );
 }
 
-void ofx::dotfrag::Base::load ( string path ){
+void ofx::dotfrag::Base::load ( std::string path ){
     this->path = path;
     reload();
 }
@@ -184,7 +184,7 @@ void ofx::dotfrag::Base::reload(){
     }
 }
 
-void ofx::dotfrag::Base::source( string sourcestring ){
+void ofx::dotfrag::Base::source( std::string sourcestring ){
     shader.setupShaderFromSource( GL_VERTEX_SHADER, vertexSrc.str() );
     shader.setupShaderFromSource( GL_FRAGMENT_SHADER, sourcestring );
     shader.bindDefaults();

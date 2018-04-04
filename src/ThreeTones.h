@@ -8,7 +8,7 @@ namespace ofx { namespace dotfrag {
 class ThreeTones : public Base {
 
 private: 
-    static const string code;
+    static const std::string code;
 
 public:
 	ThreeTones();
