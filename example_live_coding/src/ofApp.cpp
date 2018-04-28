@@ -2,8 +2,12 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofSetWindowTitle("live shader, press r to reload");
+    ofSetWindowTitle("live shader");
     bDrawGui = true;
+    
+    watcher.setCheckIntervalTimef( 0.03f );
+    watcher.addListener(this, &ofApp::onFileChange);
+	watcher.setTargetPath( frag.path() );
     
     gui.setup("", "settings.xml", 20, 20 );
     gui.setName("press g to close");
@@ -25,6 +29,11 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     if( key=='r' ) frag.reload();
     if( key=='g' ) bDrawGui = !bDrawGui;
+}
+
+void ofApp::onFileChange( ofFile &file ){
+    frag.reload();
+    ofLogNotice() << "fragment shader reloaded";
 }
 
 //--------------------------------------------------------------

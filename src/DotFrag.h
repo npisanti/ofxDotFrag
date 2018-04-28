@@ -47,6 +47,7 @@ public:
     void pause();
     void play( float speed=1.0f );
 
+    const std::string & path() const;
 
 protected:
 
@@ -67,7 +68,7 @@ protected:
     void uniform( ofParameter<bool> & param, std::string uniformName  );
     void uniform( ofParameter<ofColor> & param, std::string uniformName  );
 
-    void load ( std::string path );
+    void load ( std::string filepath );
     void source( std::string sourcestring );
 
     // to be overloaded for calculating additional uniforms
@@ -99,7 +100,7 @@ private:
     bool bTimeWarp;
 
     bool bDelay;
-    std::string path;
+    std::string filepath;
     std::string fullname;
     std::stringstream vertexSrc;
     

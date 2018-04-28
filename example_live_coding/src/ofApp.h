@@ -4,6 +4,7 @@
 
 #include "ofxGui.h"
 #include "ofxDotFrag.h"
+#include "ofxWatchFile.h"
 
 
 class LiveShader : public ofx::dotfrag::Base {
@@ -43,4 +44,8 @@ class ofApp : public ofBaseApp{
         bool bDrawGui;
         ofxPanel gui;
         LiveShader frag;
+        
+        ofxWatchFile watcher;
+        void onFileChange( ofFile &file );
+        
 };

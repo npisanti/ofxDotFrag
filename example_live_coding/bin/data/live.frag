@@ -20,6 +20,6 @@ float usin( float _time ){
 void main(){
   vec2 st = gl_FragCoord.xy/u_resolution.xy;
   
-  vec3 color = vec3 (1.0, usin( u_time)*u_var0, 0.0 );
+  vec3 color = vec3 (1.0, usin( u_time*0.1)*u_var0, 0.0 );
   gl_FragColor = vec4(color,1.0);
 }

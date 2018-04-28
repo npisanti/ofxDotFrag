@@ -43,5 +43,5 @@ class ofApp : public ofBaseApp{
         ofxPanel gui;
 
         // change the name to test different shaders
-        ofx::dotfrag::FXAA frag;
+        ofx::dotfrag::Twist frag;
 };

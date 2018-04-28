@@ -52,7 +52,7 @@ ofx::dotfrag::Base::Base() {
     
     clock = 0.0f;
     before = 0.0f;
-    path = "";
+    filepath = "";
 }
 
 void ofx::dotfrag::Base::updateUniforms( float w, float h ){
@@ -170,15 +170,19 @@ void ofx::dotfrag::Base::uniform( ofParameter<ofColor> & param ){
     uniform( param, param.getName() );
 }
 
-void ofx::dotfrag::Base::load ( std::string path ){
-    this->path = path;
+void ofx::dotfrag::Base::load ( std::string filepath ){
+    this->filepath = filepath;
     reload();
 }
 
+const std::string & ofx::dotfrag::Base::path() const{
+    return filepath;
+}
+
 void ofx::dotfrag::Base::reload(){
-    if( path!="" ){
+    if( filepath!="" ){
         shader.setupShaderFromSource( GL_VERTEX_SHADER, vertexSrc.str() );
-        shader.setupShaderFromFile( GL_FRAGMENT_SHADER, path );
+        shader.setupShaderFromFile( GL_FRAGMENT_SHADER, filepath );
         shader.bindDefaults();
         shader.linkProgram();
     }
