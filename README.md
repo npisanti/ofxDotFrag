@@ -13,6 +13,7 @@ At the moment the shader selection includes:
 - EchoTrace
 - InvertStrobe
 - Mirror
+- MirrorAxis
 - Turbolence
 - FXAA
 - Twist

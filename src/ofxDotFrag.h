@@ -6,6 +6,7 @@
 #include "Delay.h"
 #include "HSB.h"
 #include "Mirror.h"
+#include "MirrorAxis.h"
 #include "ThreeTones.h"
 #include "InvertStrobe.h"
 #include "EchoTrace.h"
