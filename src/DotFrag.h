@@ -25,14 +25,19 @@ public:
 
     Base();
 
-    void allocate( ofFbo & fbo );
+    void allocate( ofFbo & fbo ); // you don't need this if you don't use apply()
+    
+    void allocate( int w, int h );
     
     // to process an fbo using the shader
     void apply( ofFbo & fbo ); // apply shader to fbo, automatic allocation if fbo size changes
 
-    // those are for drawing shaders that don't process fbos
-    void draw( float w, float h ); // draws the shader using 0, 0 as origin
-    void draw( float x, float y, float w, float h ); // draws the shader
+    // just draws the shader without using internal fbo, you don't need to allocate()
+    void draw( float x, float y, float w, float h ); 
+    
+    // texture is used as u_tex0
+    // tested with videograbber and it is upside down, still to debug
+    void draw( float x, float y, ofTexture & texture ); 
         
     ofParameterGroup parameters;
         ofParameter<bool>  bActive;

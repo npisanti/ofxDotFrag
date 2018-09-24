@@ -78,8 +78,13 @@ void ofx::dotfrag::Base::updateUniforms( float w, float h ){
                 shader.setUniform1i( uniforms[i].name, *(uniforms[i].ip) );
             break;
             
-            case 2:
-                shader.setUniform1i( uniforms[i].name, *(uniforms[i].bp) );
+            case 2: // bool can be used as shaders 
+                if( *(uniforms[i].bp) ){
+                    shader.setUniform1f( uniforms[i].name, 1.0f );
+                }else{
+                    shader.setUniform1f( uniforms[i].name, 0.0f );
+                }
+                
             break;
             
             case 3:
@@ -259,9 +264,13 @@ void ofx::dotfrag::Base::apply( ofFbo & fbo ){
 }
 
 void ofx::dotfrag::Base::allocate( ofFbo & fbo ) {
+    allocate( fbo.getWidth(), fbo.getHeight() );
+}
+
+void ofx::dotfrag::Base::allocate( int w, int h ) {
     for(size_t i=0; i<buffers.size(); ++i ){
-        if( buffers[i].getWidth()!=fbo.getWidth() || buffers[i].getHeight()!=fbo.getHeight() ){
-            buffers[i].allocate( fbo.getWidth(), fbo.getHeight() );
+        if( buffers[i].getWidth()!=w || buffers[i].getHeight()!=h ){
+            buffers[i].allocate( w, h );
             buffers[i].begin();
                 ofClear(0, 0, 0, 0);
             buffers[i].end();
@@ -278,7 +287,7 @@ void ofx::dotfrag::Base::flush(){
     }
 }
 
-// ------------------------- NON-FILTER ---------------------------------------
+// -------------- DON'T USE INTERNAL BUFFERs ------------------------
 
 void ofx::dotfrag::Base::update( float w, float h ){
 
@@ -294,24 +303,29 @@ void ofx::dotfrag::Base::update( float w, float h ){
 
     buffers[bIndex].begin();
         ofClear(0,0,0,0);
-        draw( w, h );
+        draw( 0,0, w, h );
     buffers[bIndex].end();
-    }
-
-
-void ofx::dotfrag::Base::draw( float w, float h ){
-    if(bActive){
-        shader.begin();
-        preshading( w, h );
-        updateUniforms( w, h );
-        ofDrawRectangle(0, 0, w, h);
-        shader.end();        
-    }
 }
 
 void ofx::dotfrag::Base::draw( float x, float y, float w, float h ){
-    ofPushMatrix();
-        ofTranslate( x, y );
-        draw( w, h );
-    ofPopMatrix();
+    if(bActive){
+        ofPushMatrix();
+            ofTranslate( x, y );
+            shader.begin();
+            preshading( w, h );
+            updateUniforms( w, h );
+            ofDrawRectangle(0, 0, w, h);
+            shader.end(); 
+        ofPopMatrix();
+    }
 }
+
+void ofx::dotfrag::Base::draw( float x, float y, ofTexture & texture ){
+    shader.begin();
+    preshading( texture.getWidth(), texture.getHeight() );
+    updateUniforms( texture.getWidth(), texture.getHeight() );
+    shader.setUniformTexture("u_tex0", texture, texture.getTextureData().textureID );
+    ofDrawRectangle(0, 0, texture.getWidth(), texture.getHeight() );
+    shader.end();
+}
+

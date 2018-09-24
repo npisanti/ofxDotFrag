@@ -12,24 +12,72 @@ void ofApp::setup(){
     gui.setup("", "settings.xml", 20, 20 );
     gui.setName("press g to close");
     gui.add( frag.parameters );
+    
+    fbo.allocate( 640, 480 );
+    frag.allocate( fbo );
+    
+    mode = 0;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    
+    switch (mode){
+        case 0:  break;
+        
+        case 1:           
+            if( vidGrabber.isInitialized()){
+                vidGrabber.update();
+                if(vidGrabber.isFrameNew()){
+                    fbo.begin();
+                        ofClear(0,0,0,0);
+                        vidGrabber.draw( 0, 0 );
+                    fbo.end();
+                    frag.apply( fbo );
+                }					
+            }else{
+                if(!bCamOpen){
+                    openCam();
+                    bCamOpen = true;
+                }
+            }
+        break;
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    frag.draw( ofGetWidth(), ofGetHeight() );
+    
+    ofBackground(0);
+    
+    switch (mode){
+        case 0:
+            frag.draw( 0, 0, ofGetWidth(), ofGetHeight() );
+        break;
+        
+        default: fbo.draw( 0, 0 ); break;
+    }
+    
     if(bDrawGui) gui.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    if( key=='r' ) frag.reload();
-    if( key=='g' ) bDrawGui = !bDrawGui;
+    
+    switch( key ){
+        case '0': mode = 0; break;
+        case '1': mode = 1; break;
+		case '2': mode = 2; break;
+		case '3': mode = 3; break;
+        case 'g': bDrawGui = !bDrawGui; break;
+    }
 }
+
+void ofApp::openCam(){
+    vidGrabber.setDeviceID( 0 );
+    vidGrabber.setDesiredFrameRate(60);
+    vidGrabber.initGrabber(640, 480);
+}
+		
 
 void ofApp::onFileChange( ofFile &file ){
     frag.reload();

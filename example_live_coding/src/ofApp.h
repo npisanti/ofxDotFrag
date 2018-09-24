@@ -28,6 +28,8 @@ class ofApp : public ofBaseApp{
 		void setup();
 		void update();
 		void draw();
+        
+        void openCam();
 		
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -47,5 +49,10 @@ class ofApp : public ofBaseApp{
         
         ofxWatchFile watcher;
         void onFileChange( ofFile &file );
+        
+        int mode;
+        ofVideoGrabber vidGrabber;
+        bool bCamOpen;
+        ofFbo fbo;
         
 };

@@ -28,8 +28,8 @@ const std::string ofx::dotfrag::EchoTrace::code = OFXDOTFRAGSOURCE(
 
     uniform float u_gain;
     uniform float u_threshold;
-    uniform bool u_invert;
-    uniform bool u_hardcutoff;
+    uniform float u_invert;
+    uniform float u_hardcutoff;
 
     void main (void) {
         
@@ -38,13 +38,13 @@ const std::string ofx::dotfrag::EchoTrace::code = OFXDOTFRAGSOURCE(
         float brightLevel = 0.299*freshPixel.r +  0.587*freshPixel.g + 0.114*freshPixel.b;
         
         // invert
-        if( u_invert ) brightLevel = 1.0 - brightLevel;
+        brightLevel = mix( brightLevel, 1.0 - brightLevel, u_invert );
         
         brightLevel = brightLevel * u_gain;
         
         // hard cutof
-        if(u_hardcutoff) brightLevel = step( u_threshold, brightLevel );
-
+        brightLevel = mix( brightLevel, step( u_threshold, brightLevel ), u_hardcutoff );
+    
         gl_FragColor = mix( freshPixel, stalePixel, brightLevel);
         
     }

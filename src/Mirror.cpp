@@ -15,6 +15,10 @@ ofx::dotfrag::Mirror::Mirror() {
 
 const std::string ofx::dotfrag::Mirror::vertex = OFXDOTFRAGSOURCE(
 
+#ifdef GL_ES
+    precision mediump float;
+#endif
+
 #ifdef __ARM_ARCH
 
     attribute vec4 position;
@@ -22,16 +26,16 @@ const std::string ofx::dotfrag::Mirror::vertex = OFXDOTFRAGSOURCE(
     uniform mat4 modelViewProjectionMatrix;
     varying vec2 texcoord0;
     varying vec2 st;
-    uniform bool u_vertical;
-    uniform bool u_horizontal;
+    uniform float u_vertical;
+    uniform float u_horizontal;
     
     void main(void){
         gl_Position = modelViewProjectionMatrix * position;
         texcoord0 = texcoord;
         
         st = texcoord0/u_resolution.xy;
-        if( u_horizontal ) st.x = 1.0 - st.x;
-        if( u_vertical )  st.y = 1.0 - st.y;
+        st.x = mix( st.x, 1.0-st.x, u_horizontal );
+        st.y = mix( st.y, 1.0-st.y, u_vertical );
     }
     
 #else
