@@ -40,7 +40,7 @@ public:
     void draw( float x, float y, ofTexture & texture ); 
         
     ofParameterGroup parameters;
-        ofParameter<bool>  bActive;
+        ofParameter<bool>  active;
         ofParameter<int>   delay;
         ofParameter<float> speed;
         ofParameter<int>   passes;

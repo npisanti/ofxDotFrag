@@ -46,7 +46,7 @@ ofx::dotfrag::Base::Base() {
 
     fullname = ".frag";
     parameters.setName( fullname );
-    parameters.add( bActive.set("active", true) );
+    parameters.add( active.set("active", true) );
 
     bTimeWarp = false;
     
@@ -219,7 +219,7 @@ void ofx::dotfrag::Base::update( ofFbo & fbo ) {
 
     buffers[bIndex].begin();
         ofClear(0,0,0,0);
-        if(bActive){
+        if(active){
             draw( fbo );
         }else{
             fbo.draw(0,0);
@@ -248,7 +248,7 @@ void ofx::dotfrag::Base::draw( ofFbo & fbo  ){
 }
 
 void ofx::dotfrag::Base::apply( ofFbo & fbo ){
-    if(bActive){
+    if(active){
         for( int i=0; i<passes; ++i){ // there is shurely a faster way to do this
             update( fbo );            
 
@@ -308,7 +308,7 @@ void ofx::dotfrag::Base::update( float w, float h ){
 }
 
 void ofx::dotfrag::Base::draw( float x, float y, float w, float h ){
-    if(bActive){
+    if(active){
         ofPushMatrix();
             ofTranslate( x, y );
             shader.begin();
