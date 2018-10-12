@@ -4,23 +4,6 @@
 
 #include "ofxGui.h"
 #include "ofxDotFrag.h"
-#include "ofxWatchFile.h"
-
-
-class LiveShader : public ofx::dotfrag::Base {
-    
-public:
-    ofParameter<float> var0;
-    ofParameter<float> var1;
-
-    LiveShader(){
-        name( "live shader" );
-        uniform( var0.set("u_var0", 0.5f, 0.0f, 1.0f) );
-        uniform( var1.set("u_var1", 0.5f, 0.0f, 1.0f) );
-        load( "live.frag" );
-    }
-
-};
 
 
 class ofApp : public ofBaseApp{
@@ -44,11 +27,12 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
         
         bool bDrawGui;
+
         ofxPanel gui;
-        LiveShader frag;
-        
-        ofxWatchFile watcher;
-        void onFileChange( ofFile &file );
+            ofParameter<float> var0;
+            ofParameter<float> var1;
+
+        ofx::dotfrag::Live frag;
         
         int mode;
         ofVideoGrabber vidGrabber;

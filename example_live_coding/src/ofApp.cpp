@@ -4,18 +4,21 @@
 void ofApp::setup(){
     ofSetWindowTitle("live shader");
     bDrawGui = true;
-    
-    watcher.setCheckIntervalTimef( 0.03f );
-    watcher.addListener(this, &ofApp::onFileChange);
-	watcher.setTargetPath( frag.path() );
-    
+
+    frag.name( "live shader" );
+    frag.uniform( var0.set("u_var0", 0.5f, 0.0f, 1.0f) );
+    frag.uniform( var1.set("u_var1", 0.5f, 0.0f, 1.0f) );
+    frag.load( "live.frag" );
+
+    //frag.load( "live.frag", false ); // you can also load without watching for file changes
+
     gui.setup("", "settings.xml", 20, 20 );
     gui.setName("press g to close");
     gui.add( frag.parameters );
-    
+
     fbo.allocate( 640, 480 );
     frag.allocate( fbo );
-    
+
     mode = 0;
 }
 
@@ -23,8 +26,8 @@ void ofApp::setup(){
 void ofApp::update(){
     switch (mode){
         case 0:  break;
-        
-        case 1:           
+
+        case 1:
             if( vidGrabber.isInitialized()){
                 vidGrabber.update();
                 if(vidGrabber.isFrameNew()){
@@ -33,7 +36,7 @@ void ofApp::update(){
                         vidGrabber.draw( 0, 0 );
                     fbo.end();
                     frag.apply( fbo );
-                }					
+                }
             }else{
                 if(!bCamOpen){
                     openCam();
@@ -46,23 +49,23 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    
+
     ofBackground(0);
-    
+
     switch (mode){
         case 0:
             frag.draw( 0, 0, ofGetWidth(), ofGetHeight() );
         break;
-        
+
         default: fbo.draw( 0, 0 ); break;
     }
-    
+
     if(bDrawGui) gui.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    
+
     switch( key ){
         case '0': mode = 0; break;
         case '1': mode = 1; break;
@@ -76,12 +79,6 @@ void ofApp::openCam(){
     vidGrabber.setDeviceID( 0 );
     vidGrabber.setDesiredFrameRate(60);
     vidGrabber.initGrabber(640, 480);
-}
-		
-
-void ofApp::onFileChange( ofFile &file ){
-    frag.reload();
-    ofLogNotice() << "fragment shader reloaded";
 }
 
 //--------------------------------------------------------------
@@ -130,6 +127,6 @@ void ofApp::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }

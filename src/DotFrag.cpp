@@ -28,14 +28,14 @@ ofx::dotfrag::Base::Base() {
     vertexSrc  << "\tst = texcoord0/u_resolution.xy;\n";
     vertexSrc  << "\tgl_Position = ftransform();\n";
     vertexSrc  << "}\n";
-#endif       
+#endif
 
     bIndex = 0;
     bDelay = false;
     buffers.resize(1);
 
     delay = 0;
-    
+
     passes = 1;
 
     uniforms.reserve(12);
@@ -49,46 +49,50 @@ ofx::dotfrag::Base::Base() {
     parameters.add( active.set("active", true) );
 
     bTimeWarp = false;
-    
+
     clock = 0.0f;
     before = 0.0f;
     filepath = "";
 }
 
 void ofx::dotfrag::Base::updateUniforms( float w, float h ){
-    
-    if( bTimeWarp ){            
+
+    if( bTimeWarp ){
         float now = ofGetElapsedTimef();
         clock += (now-before) * (speed*speed*speed);
         before = now;
-        shader.setUniform1f( "u_time", clock ); 
+        shader.setUniform1f( "u_time", clock );
     }else{
         shader.setUniform1f( "u_time", ofGetElapsedTimef() );
     }
 
     shader.setUniform2f( "u_resolution", w, h );
-    
+
     for( size_t i=0; i<uniforms.size(); ++i ){
         switch( uniforms[i].type ){
             case 0:
                 shader.setUniform1f( uniforms[i].name, *(uniforms[i].fp) );
             break;
-            
+
             case 1:
                 shader.setUniform1i( uniforms[i].name, *(uniforms[i].ip) );
             break;
-            
-            case 2: // bool can be used as shaders 
+
+            case 2: // bool can be used as shaders
                 if( *(uniforms[i].bp) ){
                     shader.setUniform1f( uniforms[i].name, 1.0f );
                 }else{
                     shader.setUniform1f( uniforms[i].name, 0.0f );
                 }
-                
+
             break;
-            
+
             case 3:
-                shader.setUniform3f(uniforms[i].name, uniforms[i].cp->get().r*cMult, uniforms[i].cp->get().g*cMult, uniforms[i].cp->get().b*cMult );
+                shader.setUniform3f( uniforms[i].name, uniforms[i].cp->get().r*cMult, uniforms[i].cp->get().g*cMult, uniforms[i].cp->get().b*cMult );
+            break;
+
+            case 4:
+                shader.setUniform2f( uniforms[i].name, uniforms[i].v2p->get().x, uniforms[i].v2p->get().y );
             break;
         }
     }
@@ -102,7 +106,7 @@ void ofx::dotfrag::Base::buffersize( int num ) {
     }else if( num>2){
         parameters.add( delay.set("delay", 1, 1, num-1) );
         bDelay = true;
-    } 
+    }
 }
 
 void ofx::dotfrag::Base::pingpong(){
@@ -159,6 +163,14 @@ void ofx::dotfrag::Base::uniform( ofParameter<ofColor> & param, std::string unif
     uniforms.back().cp = &param;
 }
 
+void ofx::dotfrag::Base::uniform( ofParameter<glm::vec2> & param, std::string uniformName  ){
+    parameters.add( param );
+    uniforms.emplace_back();
+    uniforms.back().name = uniformName;
+    uniforms.back().type = 4;
+    uniforms.back().v2p = &param;
+}
+
 void ofx::dotfrag::Base::uniform( ofParameter<float> & param ){
     uniform( param, param.getName() );
 }
@@ -172,6 +184,10 @@ void ofx::dotfrag::Base::uniform( ofParameter<int> & param ){
 }
 
 void ofx::dotfrag::Base::uniform( ofParameter<ofColor> & param ){
+    uniform( param, param.getName() );
+}
+
+void ofx::dotfrag::Base::uniform( ofParameter<glm::vec2> & param ){
     uniform( param, param.getName() );
 }
 
@@ -214,7 +230,7 @@ void ofx::dotfrag::Base::play( float speed ){
 }
 
 void ofx::dotfrag::Base::update( ofFbo & fbo ) {
-    
+
     allocate( fbo );
 
     buffers[bIndex].begin();
@@ -243,6 +259,7 @@ void ofx::dotfrag::Base::draw( ofFbo & fbo  ){
         shader.setUniformTexture("u_tex1", buffers[dIndex].getTexture(), buffers[dIndex].getTexture().getTextureData().textureID );
     }
     ofSetColor(255, 255, 255, 255);
+    ofFill();
     ofDrawRectangle(0, 0, fbo.getWidth(), fbo.getHeight() );
     shader.end();
 }
@@ -250,7 +267,7 @@ void ofx::dotfrag::Base::draw( ofFbo & fbo  ){
 void ofx::dotfrag::Base::apply( ofFbo & fbo ){
     if(active){
         for( int i=0; i<passes; ++i){ // there is shurely a faster way to do this
-            update( fbo );            
+            update( fbo );
 
             fbo.begin();
                 ofClear(0,0,0,0);
@@ -299,7 +316,7 @@ void ofx::dotfrag::Base::update( float w, float h ){
             buffers[i].end();
             ofLogVerbose()<<"["<<fullname<<"] reallocating buffer";
         }
-    } 
+    }
 
     buffers[bIndex].begin();
         ofClear(0,0,0,0);
@@ -314,8 +331,9 @@ void ofx::dotfrag::Base::draw( float x, float y, float w, float h ){
             shader.begin();
             preshading( w, h );
             updateUniforms( w, h );
+            ofFill();
             ofDrawRectangle(0, 0, w, h);
-            shader.end(); 
+            shader.end();
         ofPopMatrix();
     }
 }
@@ -325,7 +343,7 @@ void ofx::dotfrag::Base::draw( float x, float y, ofTexture & texture ){
     preshading( texture.getWidth(), texture.getHeight() );
     updateUniforms( texture.getWidth(), texture.getHeight() );
     shader.setUniformTexture("u_tex0", texture, texture.getTextureData().textureID );
+    ofFill();
     ofDrawRectangle(0, 0, texture.getWidth(), texture.getHeight() );
     shader.end();
 }
-
