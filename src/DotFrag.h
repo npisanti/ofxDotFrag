@@ -39,6 +39,10 @@ public:
     // tested with videograbber and it is upside down, still to debug
     void draw( float x, float y, ofTexture & texture );
 
+    // use those to draw with your own primitives
+    void begin( int w, int h );
+    void end();
+
     ofParameterGroup parameters;
         ofParameter<bool>  active;
         ofParameter<int>   delay;

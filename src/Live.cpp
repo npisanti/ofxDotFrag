@@ -36,6 +36,7 @@ void ofx::dotfrag::Live::update(ofEventArgs &args){
         if( checkTimestamp != writeTimestamp){
             writeTimestamp = checkTimestamp;
             reload();
+            ofLogNotice() << "["<<filepath<<"] shader reloaded";
         }
     }
 }

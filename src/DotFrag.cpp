@@ -347,3 +347,17 @@ void ofx::dotfrag::Base::draw( float x, float y, ofTexture & texture ){
     ofDrawRectangle(0, 0, texture.getWidth(), texture.getHeight() );
     shader.end();
 }
+
+void ofx::dotfrag::Base::begin( int w, int h ){
+    if(active){
+        shader.begin();
+        preshading( w, h );
+        updateUniforms( w, h );
+    }
+}
+
+void ofx::dotfrag::Base::end(){
+    if(active){
+        shader.end();
+    }
+}
