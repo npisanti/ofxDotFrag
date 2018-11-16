@@ -361,3 +361,15 @@ void ofx::dotfrag::Base::end(){
         shader.end();
     }
 }
+
+ofParameterGroup & ofx::dotfrag::Base::label( std::string name ){
+    parameters.setName( name );
+    return parameters;
+}
+
+void ofx::dotfrag::Base::drawTo( ofFbo & fbo ){
+    fbo.begin();
+        ofClear( 0, 0, 0, 0 );
+        draw( 0, 0, fbo.getWidth(), fbo.getHeight() );
+    fbo.end();
+}

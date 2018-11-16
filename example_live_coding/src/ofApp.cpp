@@ -54,6 +54,7 @@ void ofApp::draw(){
 
     switch (mode){
         case 0:
+            ofSetColor( 255, 0, 0 );
             frag.draw( 0, 0, ofGetWidth(), ofGetHeight() );
         break;
 

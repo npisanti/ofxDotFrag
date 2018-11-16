@@ -2,7 +2,7 @@
 #include "Twist.h"
 
 ofx::dotfrag::Twist::Twist() {
-    name("mirror");
+    name("twist");
     parameters.add( amount.set("amount", 0.5f, 0.0f, 1.0f) );
     parameters.add( variation.set("variation",  0.5f, 0.0f, 1.0f) );
 

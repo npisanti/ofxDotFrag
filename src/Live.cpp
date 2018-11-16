@@ -27,6 +27,9 @@ void ofx::dotfrag::Live::load( std::string path, bool watch ) {
     }else{
         ofLogError() << "[ofx::dotfrag::Live] file to load does not exists\n";
     }
+    
+    std::string name = ofFilePath::ofFilePath::getFileName( path );
+    parameters.setName( name );
 }
 
 void ofx::dotfrag::Live::update(ofEventArgs &args){

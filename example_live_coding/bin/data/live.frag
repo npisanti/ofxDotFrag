@@ -11,7 +11,7 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
-uniform float u_tex0;
+uniform sampler2D u_tex0;
 
 uniform float u_var0;
 uniform float u_var1;
@@ -25,5 +25,6 @@ void main(){
   //vec4 source = texture2D( u_tex0, st ); // for texture access
 
   vec3 color = vec3 (1.0, usin( u_time*0.1)*u_var0, 0.0 );
+  //vec3 color = vec3 (1.0);
   gl_FragColor = vec4(color,1.0);
 }

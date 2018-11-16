@@ -39,6 +39,8 @@ public:
     // tested with videograbber and it is upside down, still to debug
     void draw( float x, float y, ofTexture & texture );
 
+    void drawTo( ofFbo & fbo ); // draw shader to fbo, clearing it before
+
     // use those to draw with your own primitives
     void begin( int w, int h );
     void end();
@@ -80,12 +82,15 @@ public:
     virtual void load ( std::string filepath );
     void source( std::string sourcestring );
 
+    // direct acces to shader
+    ofShader        shader;
+    
+    ofParameterGroup & label( std::string name );
+
 protected:
     // to be overloaded for calculating additional uniforms
     virtual void preshading( float w, float h ) {};
 
-    // direct acces to shader
-    ofShader        shader;
     std::string filepath;
 
 private:

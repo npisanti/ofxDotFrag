@@ -18,6 +18,6 @@ At the moment the shader selection includes:
 - FXAA
 - Twist
 - RadialRemap
-and a `ofx::dotfrag::Live` class for live coding.
+and an `ofx::dotfrag::Live` class for live coding.
 
 This project is somewhere between alpha and beta state now, but it is stable enough to be used in projects, just the api could change a bit in the future. I will add more shaders depending on the projects i'm working on at the moment. Every contribution is also welcome, it's easy to understand how to implement new shaders by looking at the included ones.
