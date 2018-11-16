@@ -149,7 +149,7 @@ void ofApp::keyPressed(int key){
 		case '5': mode = 5; break;
 		case '0': mode = 0; break;
 		case 'g': bDrawGui = !bDrawGui;	break;
-		case ' ': frag.bActive = true; break;
+		case ' ': frag.active = true; break;
 		case 'r': frag.reload(); break;
 		case 'f': bDisplayFps = !bDisplayFps; break;
 	}
@@ -157,7 +157,7 @@ void ofApp::keyPressed(int key){
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-	if( key == ' ' ) frag.bActive = false;
+	if( key == ' ' ) frag.active = false;
 }
 
 //--------------------------------------------------------------

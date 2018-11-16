@@ -32,14 +32,11 @@ public:
     // to process an fbo using the shader
     void apply( ofFbo & fbo ); // apply shader to fbo, automatic allocation if fbo size changes
 
+    void drawTo( ofFbo & fbo ); // draw shader to fbo, clearing it before
+
     // just draws the shader without using internal fbo, you don't need to allocate()
     void draw( float x, float y, float w, float h );
 
-    // texture is used as u_tex0
-    // tested with videograbber and it is upside down, still to debug
-    void draw( float x, float y, ofTexture & texture );
-
-    void drawTo( ofFbo & fbo ); // draw shader to fbo, clearing it before
 
     // use those to draw with your own primitives
     void begin( int w, int h );
