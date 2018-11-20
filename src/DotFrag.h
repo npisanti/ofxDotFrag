@@ -79,15 +79,15 @@ public:
     virtual void load ( std::string filepath );
     void source( std::string sourcestring );
 
-    // direct acces to shader
-    ofShader        shader;
-    
     ofParameterGroup & label( std::string name );
 
 protected:
     // to be overloaded for calculating additional uniforms
     virtual void preshading( float w, float h ) {};
-
+    
+    // access to shader
+    ofShader        shader;
+    
     std::string filepath;
 
 private:
