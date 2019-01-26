@@ -69,12 +69,14 @@ public:
     void uniform( ofParameter<bool> & param );
     void uniform( ofParameter<ofColor> & param );
     void uniform( ofParameter<glm::vec2> & param );
+    void uniform( ofParameter<glm::vec3> & param );
 
     void uniform( ofParameter<float> & param, std::string uniformName );
     void uniform( ofParameter<int> & param, std::string uniformName  );
     void uniform( ofParameter<bool> & param, std::string uniformName  );
     void uniform( ofParameter<ofColor> & param, std::string uniformName  );
     void uniform( ofParameter<glm::vec2> & param, std::string uniformName   );
+    void uniform( ofParameter<glm::vec3> & param, std::string uniformName   );
 
     virtual void load ( std::string filepath );
     void source( std::string sourcestring );
@@ -126,6 +128,7 @@ private:
             ip = nullptr;
             cp = nullptr;
             v2p = nullptr;
+            v3p = nullptr;
         }
         int type;
         std::string name;
@@ -134,6 +137,7 @@ private:
         ofParameter<bool> *     bp;
         ofParameter<ofColor> *  cp;
         ofParameter<glm::vec2> *  v2p;
+        ofParameter<glm::vec3> *  v3p;
     };
 
 };

@@ -94,6 +94,10 @@ void ofx::dotfrag::Base::updateUniforms( float w, float h ){
             case 4:
                 shader.setUniform2f( uniforms[i].name, uniforms[i].v2p->get().x, uniforms[i].v2p->get().y );
             break;
+            
+            case 5:
+                shader.setUniform3f( uniforms[i].name, uniforms[i].v3p->get().x, uniforms[i].v3p->get().y, uniforms[i].v3p->get().z );
+            break;
         }
     }
 }
@@ -171,6 +175,14 @@ void ofx::dotfrag::Base::uniform( ofParameter<glm::vec2> & param, std::string un
     uniforms.back().v2p = &param;
 }
 
+void ofx::dotfrag::Base::uniform( ofParameter<glm::vec3> & param, std::string uniformName  ){
+    parameters.add( param );
+    uniforms.emplace_back();
+    uniforms.back().name = uniformName;
+    uniforms.back().type = 5;
+    uniforms.back().v3p = &param;
+}
+
 void ofx::dotfrag::Base::uniform( ofParameter<float> & param ){
     uniform( param, param.getName() );
 }
@@ -188,6 +200,10 @@ void ofx::dotfrag::Base::uniform( ofParameter<ofColor> & param ){
 }
 
 void ofx::dotfrag::Base::uniform( ofParameter<glm::vec2> & param ){
+    uniform( param, param.getName() );
+}
+
+void ofx::dotfrag::Base::uniform( ofParameter<glm::vec3> & param ){
     uniform( param, param.getName() );
 }
 
