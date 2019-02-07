@@ -13,6 +13,9 @@ private:
 public:
 	Monochrome();
     
+    ofParameter<float> low;
+    ofParameter<float> high;
+    
 };
 
 }} // namespaces end
