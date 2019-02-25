@@ -139,56 +139,56 @@ void ofx::dotfrag::Base::multipass( int maxpasses ){
     parameters.add( passes.set("passes", 1, 1, maxpasses) );
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<float> & param, std::string uniformName ){
-    parameters.add( param );
+void ofx::dotfrag::Base::uniform( ofParameter<float> & param, std::string uniformName, bool addToParameters ){
+    if( addToParameters ) parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
     uniforms.back().type = 0;
     uniforms.back().fp = &param;
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<int> & param, std::string uniformName ){
-    parameters.add( param );
+void ofx::dotfrag::Base::uniform( ofParameter<int> & param, std::string uniformName, bool addToParameters ){
+    if( addToParameters ) parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
     uniforms.back().type = 1;
     uniforms.back().ip = &param;
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<bool> & param, std::string uniformName ){
-    parameters.add( param );
+void ofx::dotfrag::Base::uniform( ofParameter<bool> & param, std::string uniformName, bool addToParameters ){
+    if( addToParameters ) parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
     uniforms.back().type = 2;
     uniforms.back().bp = &param;
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<ofColor> & param, std::string uniformName  ){
-    parameters.add( param );
+void ofx::dotfrag::Base::uniform( ofParameter<ofColor> & param, std::string uniformName, bool addToParameters ){
+    if( addToParameters ) parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
     uniforms.back().type = 3;
     uniforms.back().cp = &param;
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<glm::vec2> & param, std::string uniformName  ){
-    parameters.add( param );
+void ofx::dotfrag::Base::uniform( ofParameter<glm::vec2> & param, std::string uniformName, bool addToParameters ){
+    if( addToParameters ) parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
     uniforms.back().type = 4;
     uniforms.back().v2p = &param;
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<glm::vec3> & param, std::string uniformName  ){
-    parameters.add( param );
+void ofx::dotfrag::Base::uniform( ofParameter<glm::vec3> & param, std::string uniformName, bool addToParameters ){
+    if( addToParameters ) parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
     uniforms.back().type = 5;
     uniforms.back().v3p = &param;
 }
 
-void ofx::dotfrag::Base::uniform( ofParameter<glm::vec4> & param, std::string uniformName  ){
-    parameters.add( param );
+void ofx::dotfrag::Base::uniform( ofParameter<glm::vec4> & param, std::string uniformName, bool addToParameters ){
+    if( addToParameters ) parameters.add( param );
     uniforms.emplace_back();
     uniforms.back().name = uniformName;
     uniforms.back().type = 6;

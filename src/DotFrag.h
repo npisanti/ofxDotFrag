@@ -72,13 +72,13 @@ public:
     void uniform( ofParameter<glm::vec3> & param );
     void uniform( ofParameter<glm::vec4> & param );
 
-    void uniform( ofParameter<float> & param, std::string uniformName );
-    void uniform( ofParameter<int> & param, std::string uniformName  );
-    void uniform( ofParameter<bool> & param, std::string uniformName  );
-    void uniform( ofParameter<ofColor> & param, std::string uniformName  );
-    void uniform( ofParameter<glm::vec2> & param, std::string uniformName   );
-    void uniform( ofParameter<glm::vec3> & param, std::string uniformName   );
-    void uniform( ofParameter<glm::vec4> & param, std::string uniformName   );
+    void uniform( ofParameter<float> & param, std::string uniformName, bool addToParameters=true );
+    void uniform( ofParameter<int> & param, std::string uniformName, bool addToParameters=true );
+    void uniform( ofParameter<bool> & param, std::string uniformName, bool addToParameters=true );
+    void uniform( ofParameter<ofColor> & param, std::string uniformName, bool addToParameters=true );
+    void uniform( ofParameter<glm::vec2> & param, std::string uniformName, bool addToParameters=true );
+    void uniform( ofParameter<glm::vec3> & param, std::string uniformName, bool addToParameters=true );
+    void uniform( ofParameter<glm::vec4> & param, std::string uniformName, bool addToParameters=true );
 
     virtual void load ( std::string filepath );
     void source( std::string sourcestring );
