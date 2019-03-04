@@ -41,7 +41,9 @@ ofx::dotfrag::Base::Base() {
     uniforms.reserve(12);
 
     ofDisableArbTex();
-    if(constructed==0) ofLogNotice()<<"[ofx::dotfrag::Base] disabling ARB textures for shaders\n";
+    if(constructed==0){
+        ofLogNotice()<<"[ofx::dotfrag::Base] disabling ARB textures for shaders\n";
+    } 
     constructed++;
 
     fullname = ".frag";
@@ -298,6 +300,10 @@ void ofx::dotfrag::Base::draw( ofFbo & fbo  ){
 
 void ofx::dotfrag::Base::apply( ofFbo & fbo ){
     if(active){
+        
+        ofPushStyle();
+        ofDisableAlphaBlending();
+        
         for( int i=0; i<passes; ++i){ // there is shurely a faster way to do this
             update( fbo );
 
@@ -309,6 +315,8 @@ void ofx::dotfrag::Base::apply( ofFbo & fbo ){
                 buffers[now].draw(0,0);
             fbo.end();
         }
+        
+        ofPopStyle();
     }
 }
 
