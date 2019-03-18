@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "DotFrag.h"
+#include "Base.h"
 
 // Twist shader, ported from ofxPostGlitch
 // https://github.com/maxillacult/ofxPostGlitch.git

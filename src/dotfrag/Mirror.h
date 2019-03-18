@@ -1,17 +1,18 @@
 
 #pragma once
 
-#include "DotFrag.h"
+#include "Base.h"
 
 namespace ofx { namespace dotfrag {
 
-class MirrorAxis : public Base {
+class Mirror : public Base {
 
 private:
-    static const std::string code;
+    static const std::string vertex;
+    static const std::string fragment;
 
 public:
-	MirrorAxis();
+	Mirror();
     
     ofParameter<bool> horizontal;
 	ofParameter<bool> vertical;

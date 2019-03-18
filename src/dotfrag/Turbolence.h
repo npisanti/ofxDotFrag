@@ -1,21 +1,20 @@
 
 #pragma once
 
-#include "DotFrag.h"
+#include "Base.h"
 
 namespace ofx { namespace dotfrag {
 
-class Monochrome : public Base {
+class Turbolence : public Base {
 
 private:
     static const std::string code;
 
 public:
-	Monochrome();
+	Turbolence();
     
-    ofParameter<float> low;
-    ofParameter<float> high;
-    
+    ofParameter<float> x;
+	ofParameter<float> y;
 };
 
 }} // namespaces end

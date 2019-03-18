@@ -1,5 +1,5 @@
 
-#include "DotFrag.h"
+#include "Base.h"
 
 int ofx::dotfrag::Base::constructed = 0;
 const float ofx::dotfrag::Base::cMult = 1.0f / 255.0f;

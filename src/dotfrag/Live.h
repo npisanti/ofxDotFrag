@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DotFrag.h"
+#include "Base.h"
 #include <boost/filesystem.hpp>
 
 namespace ofx { namespace dotfrag {

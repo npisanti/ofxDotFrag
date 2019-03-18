@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "DotFrag.h"
+#include "Base.h"
 
 namespace ofx { namespace dotfrag {
 
