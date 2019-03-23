@@ -25,18 +25,21 @@ public:
 
     Base();
 
-    void allocate( ofFbo & fbo ); // you don't need this if you don't use apply()
-
+    // you don't need this if you don't use apply() 
+    // or ping pong buffers
+    void allocate( ofFbo & fbo ); 
     void allocate( int w, int h );
 
     // to process an fbo using the shader
-    void apply( ofFbo & fbo ); // apply shader to fbo, automatic allocation if fbo size changes
-
-    void drawTo( ofFbo & fbo ); // draw shader to fbo, clearing it before
+    // automatic allocation if fbo size changes
+    void apply( ofFbo & fbo ); 
 
     // just draws the shader without using internal fbo, you don't need to allocate()
     void draw( float x, float y, float w, float h );
 
+    // draw shader to fbo, clearing it before
+    // also no need for allocation 
+    void drawTo( ofFbo & fbo ); 
 
     // use those to draw with your own primitives
     void begin( int w, int h );
@@ -44,7 +47,7 @@ public:
 
     ofParameterGroup parameters;
         ofParameter<bool>  active;
-        ofParameter<int>   delay;
+        ofParameter<int>   delay; // num of delay frames
         ofParameter<float> speed;
         ofParameter<int>   passes;
 
