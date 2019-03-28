@@ -57,6 +57,7 @@ public:
     void stop();
     void pause();
     void play( float speed=1.0f );
+    void setTime( float value ){ clock = value; }
 
     const std::string & path() const;
 
