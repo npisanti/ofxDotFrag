@@ -58,7 +58,11 @@ void ofApp::draw(){
             frag.draw( 0, 0, ofGetWidth(), ofGetHeight() );
         break;
 
-        default: fbo.draw( 0, 0 ); break;
+        
+        default: 
+            ofSetColor(255 );
+            fbo.draw( 0, 0 ); 
+        break;
     }
 
     if(bDrawGui) gui.draw();
