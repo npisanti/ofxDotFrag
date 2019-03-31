@@ -8,8 +8,7 @@ namespace ofx { namespace dotfrag {
 class Mirror : public Base {
 
 private:
-    static const std::string vertex;
-    static const std::string fragment;
+    static const std::string code;
 
 public:
 	Mirror();

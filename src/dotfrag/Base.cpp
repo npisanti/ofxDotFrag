@@ -11,21 +11,17 @@ ofx::dotfrag::Base::Base() {
     vertexSrc  << "attribute vec4 position;\n";
     vertexSrc  << "attribute vec2 texcoord;\n";
     vertexSrc  << "uniform vec2 u_resolution;\n";
-    vertexSrc  << "varying vec2 st;\n";
     vertexSrc  << "uniform mat4 modelViewProjectionMatrix;\n";
     vertexSrc  << "varying vec2 texcoord0;\n";
     vertexSrc  << "void main(void){\n";
     vertexSrc  << "\tgl_Position = modelViewProjectionMatrix * position;\n";
     vertexSrc  << "\ttexcoord0 = texcoord;\n";
-    vertexSrc  << "\tst = texcoord0/u_resolution.xy;\n";
     vertexSrc  << "}\n";
 #else
     vertexSrc  << "varying vec2 texcoord0;\n";
     vertexSrc  << "uniform vec2 u_resolution;\n";
-    vertexSrc  << "varying vec2 st;\n";
     vertexSrc  << "void main(void){\n";
     vertexSrc  << "\ttexcoord0 = gl_Vertex.xy;\n";
-    vertexSrc  << "\tst = texcoord0/u_resolution.xy;\n";
     vertexSrc  << "\tgl_Position = ftransform();\n";
     vertexSrc  << "}\n";
 #endif

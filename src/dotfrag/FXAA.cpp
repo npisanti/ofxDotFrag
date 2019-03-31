@@ -15,73 +15,11 @@
 
 ofx::dotfrag::FXAA::FXAA() {
     name("fxaa");
-
-    shader.setupShaderFromSource( GL_VERTEX_SHADER, vertex );
-    shader.setupShaderFromSource( GL_FRAGMENT_SHADER, fragment );
-    shader.bindDefaults();
-    shader.linkProgram();
-
+    source( code );
 }
 
-const std::string ofx::dotfrag::FXAA::vertex = OFXDOTFRAGSOURCE(
 
-#ifdef __ARM_ARCH
-
-    attribute vec4 position;
-    attribute vec2 texcoord;
-    uniform mat4 modelViewProjectionMatrix;
-    varying vec2 texcoord0;
-    varying vec2 st;
-
-    varying vec2 v_coord_NW;
-    varying vec2 v_coord_NE;
-    varying vec2 v_coord_SW;
-    varying vec2 v_coord_SE;
-    varying vec2 texeldim;
-
-    void main(void){
-        gl_Position = modelViewProjectionMatrix * position;
-        texcoord0 = texcoord;
-        
-        st = texcoord0/u_resolution.xy;
-        
-        texeldim = vec2(1.0) / u_resolution;
-        v_coord_NW = st + vec2( -1.0, -1.0 ) * texeldim;
-        v_coord_NE = st + vec2(  1.0, -1.0 ) * texeldim;
-        v_coord_SW = st + vec2( -1.0,  1.0 ) * texeldim;
-        v_coord_SE = st + vec2(  1.0,  1.0 ) * texeldim;
-    }
-    
-#else
-
-    varying vec2 texcoord0;
-    uniform vec2 u_resolution;
-    varying vec2 st;
-    
-    varying vec2 v_coord_NW;
-    varying vec2 v_coord_NE;
-    varying vec2 v_coord_SW;
-    varying vec2 v_coord_SE;
-    varying vec2 texeldim;
- 
-    void main(void){
-        texcoord0 = gl_Vertex.xy;
-        st = texcoord0/u_resolution.xy;
-        
-        texeldim = vec2(1.0) / u_resolution;
-        v_coord_NW = st + vec2( -1.0, -1.0 ) * texeldim;
-        v_coord_NE = st + vec2(  1.0, -1.0 ) * texeldim;
-        v_coord_SW = st + vec2( -1.0,  1.0 ) * texeldim;
-        v_coord_SE = st + vec2(  1.0,  1.0 ) * texeldim;
-
-        gl_Position = ftransform();
-    }
-    
-#endif       
-    
-); //OFXDOTFRAGSOURCE end
-
-const std::string ofx::dotfrag::FXAA::fragment = OFXDOTFRAGSOURCE(
+const std::string ofx::dotfrag::FXAA::code = OFXDOTFRAGSOURCE(
 
     #ifdef GL_ES
     precision mediump float;
@@ -91,17 +29,19 @@ const std::string ofx::dotfrag::FXAA::fragment = OFXDOTFRAGSOURCE(
     uniform sampler2D u_tex0;
     uniform vec2 u_resolution;
 
-    varying vec2 v_coord_NW;
-    varying vec2 v_coord_NE;
-    varying vec2 v_coord_SW;
-    varying vec2 v_coord_SE;
-    varying vec2 texeldim;
-
     const float FXAA_REDUCE_MIN = 1.0/128.0;
     const float FXAA_REDUCE_MUL = 1.0/8.0;
     const float FXAA_SPAN_MAX = 8.0;
 
     void main() {
+
+        vec2 st = gl_FragCoord.xy/u_resolution;
+
+        vec2 texeldim = vec2(1.0) / u_resolution;
+        vec2 v_coord_NW = st + vec2( -1.0, -1.0 ) * texeldim;
+        vec2 v_coord_NE = st + vec2(  1.0, -1.0 ) * texeldim;
+        vec2 v_coord_SW = st + vec2( -1.0,  1.0 ) * texeldim;
+        vec2 v_coord_SE = st + vec2(  1.0,  1.0 ) * texeldim;
         
         vec3 rgbNW = texture2D( u_tex0, v_coord_NW ).xyz;
         vec3 rgbNE = texture2D( u_tex0, v_coord_NE ).xyz;

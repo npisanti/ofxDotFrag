@@ -17,7 +17,6 @@ const std::string ofx::dotfrag::Turbolence::code = OFXDOTFRAGSOURCE(
     uniform vec2 u_resolution;
     uniform float u_time;
     uniform sampler2D u_tex0;
-    varying vec2 st;
 
     uniform float u_amount_x;
     uniform float u_amount_y;
@@ -27,6 +26,7 @@ const std::string ofx::dotfrag::Turbolence::code = OFXDOTFRAGSOURCE(
     }
 
     void main(){
+        vec2 st = gl_FragCoord.xy/u_resolution;
         vec2 dt;
         
         float amtx = u_amount_x * u_amount_x * 0.2;
