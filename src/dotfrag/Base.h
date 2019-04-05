@@ -34,16 +34,10 @@ public:
     // automatic allocation if fbo size changes
     void apply( ofFbo & fbo ); 
 
-    // just draws the shader without using internal fbo, you don't need to allocate()
-    void draw( float x, float y, float w, float h );
-
     // draw shader to fbo, clearing it before
-    // also no need for allocation 
+    // also allocation is not needed
     void drawTo( ofFbo & fbo ); 
 
-    // use those to draw with your own primitives
-    void begin( int w, int h );
-    void end();
 
     ofParameterGroup parameters;
         ofParameter<bool>  active;
@@ -103,9 +97,9 @@ private:
 
     void buffersize( int num );
     void update( ofFbo & fbo ); // update, use for processing fbos
-    void update( float w, float h ); // update for graphic shaders
     void draw( ofFbo & fbo  );
 
+    void render( float w, float h );
 
     unsigned int    bIndex;
     std::vector<ofFbo>  	buffers;

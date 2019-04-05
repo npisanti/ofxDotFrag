@@ -259,62 +259,6 @@ void ofx::dotfrag::Base::play( float speed ){
     this->speed = speed;
 }
 
-void ofx::dotfrag::Base::update( ofFbo & fbo ) {
-
-    allocate( fbo );
-
-    buffers[bIndex].begin();
-        ofClear(0,0,0,0);
-        if(active){
-            draw( fbo );
-        }else{
-            fbo.draw(0,0);
-        }
-    buffers[bIndex].end();
-
-    if(bDelay){
-        bIndex++;
-        if(bIndex>=buffers.size()) bIndex = 0;
-    }
-}
-
-void ofx::dotfrag::Base::draw( ofFbo & fbo  ){
-    shader.begin();
-    preshading( fbo.getWidth(), fbo.getHeight() );
-    updateUniforms( fbo.getWidth(), fbo.getHeight() );
-    shader.setUniformTexture("u_tex0", fbo.getTexture(), fbo.getTexture().getTextureData().textureID );
-    if(bDelay){
-        int dIndex = bIndex - delay;
-        if( dIndex < 0 ) dIndex += buffers.size();
-        shader.setUniformTexture("u_tex1", buffers[dIndex].getTexture(), buffers[dIndex].getTexture().getTextureData().textureID );
-    }
-    ofSetColor(255, 255, 255, 255);
-    ofFill();
-    ofDrawRectangle(0, 0, fbo.getWidth(), fbo.getHeight() );
-    shader.end();
-}
-
-void ofx::dotfrag::Base::apply( ofFbo & fbo ){
-    if(active){
-        
-        ofPushStyle();
-        ofDisableAlphaBlending();
-        
-        for( int i=0; i<passes; ++i){ // there is shurely a faster way to do this
-            update( fbo );
-
-            fbo.begin();
-                ofClear(0,0,0,0);
-                ofSetColor(255, 255, 255, 255);
-                int now = bIndex-1;
-                if(now<0) now+=buffers.size();
-                buffers[now].draw(0,0);
-            fbo.end();
-        }
-        
-        ofPopStyle();
-    }
-}
 
 void ofx::dotfrag::Base::allocate( ofFbo & fbo ) {
     allocate( fbo.getWidth(), fbo.getHeight() );
@@ -340,52 +284,77 @@ void ofx::dotfrag::Base::flush(){
     }
 }
 
-// -------------- DON'T USE INTERNAL BUFFERs ------------------------
+void ofx::dotfrag::Base::apply( ofFbo & fbo ){
+    if(active){
+        
+        ofPushStyle();
+        ofDisableAlphaBlending();
+        
+        for( int i=0; i<passes; ++i){ // there is shurely a faster way to do this
+            update( fbo );
 
-void ofx::dotfrag::Base::update( float w, float h ){
-
-    for(size_t i=0; i<buffers.size(); ++i ){
-        if(buffers[bIndex].getWidth()!=w || buffers[bIndex].getHeight()!=h){
-            buffers[i].allocate( w, h );
-            buffers[i].begin();
-                ofClear(0, 0, 0, 0);
-            buffers[i].end();
-            ofLogVerbose()<<"["<<fullname<<"] reallocating buffer";
+            fbo.begin();
+                ofClear(0,0,0,0);
+                ofSetColor(255, 255, 255, 255);
+                int now = bIndex-1;
+                if(now<0) now+=buffers.size();
+                buffers[now].draw(0,0);
+            fbo.end();
         }
+        
+        ofPopStyle();
     }
+}
+
+void ofx::dotfrag::Base::update( ofFbo & fbo ) {
+
+    allocate( fbo );
 
     buffers[bIndex].begin();
         ofClear(0,0,0,0);
-        draw( 0,0, w, h );
+        draw( fbo );
     buffers[bIndex].end();
-}
 
-void ofx::dotfrag::Base::draw( float x, float y, float w, float h ){
-    if(active){
-        ofPushMatrix();
-            ofTranslate( x, y );
-            shader.begin();
-            preshading( w, h );
-            updateUniforms( w, h );
-            ofFill();
-            ofDrawRectangle(0, 0, w, h);
-            shader.end();
-        ofPopMatrix();
+    if(bDelay){
+        bIndex++;
+        if(bIndex>=buffers.size()) bIndex = 0;
     }
 }
 
-void ofx::dotfrag::Base::begin( int w, int h ){
+void ofx::dotfrag::Base::draw( ofFbo & fbo  ){
+    shader.begin();
+    preshading( fbo.getWidth(), fbo.getHeight() );
+    updateUniforms( fbo.getWidth(), fbo.getHeight() );
+    shader.setUniformTexture("u_tex0", fbo.getTexture(), fbo.getTexture().getTextureData().textureID );
+    if(bDelay){
+        int dIndex = bIndex - delay;
+        if( dIndex < 0 ) dIndex += buffers.size();
+        shader.setUniformTexture("u_tex1", buffers[dIndex].getTexture(), buffers[dIndex].getTexture().getTextureData().textureID );
+    }
+    ofSetColor(255, 255, 255, 255);
+    ofFill();
+    ofDrawRectangle(0, 0, fbo.getWidth(), fbo.getHeight() );
+    shader.end();
+}
+
+void ofx::dotfrag::Base::render( float w, float h ){
     if(active){
         shader.begin();
         preshading( w, h );
         updateUniforms( w, h );
+        ofFill();
+        ofDrawRectangle(0, 0, w, h);
+        shader.end();
     }
 }
 
-void ofx::dotfrag::Base::end(){
-    if(active){
-        shader.end();
-    }
+
+
+void ofx::dotfrag::Base::drawTo( ofFbo & fbo ){
+    fbo.begin();
+        ofClear( 0, 0, 0, 0 );
+        render( fbo.getWidth(), fbo.getHeight() );
+    fbo.end();
 }
 
 ofParameterGroup & ofx::dotfrag::Base::label( std::string name ){
@@ -393,9 +362,3 @@ ofParameterGroup & ofx::dotfrag::Base::label( std::string name ){
     return parameters;
 }
 
-void ofx::dotfrag::Base::drawTo( ofFbo & fbo ){
-    fbo.begin();
-        ofClear( 0, 0, 0, 0 );
-        draw( 0, 0, fbo.getWidth(), fbo.getHeight() );
-    fbo.end();
-}
