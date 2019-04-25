@@ -4,7 +4,7 @@
 ofx::dotfrag::InvertStrobe::InvertStrobe() {
     name("invert strobe");
     timewarp();
-    uniform( pulse.set("pulse", 0.5f, 0.0f, 1.0f), "u_pulse" );
+    uniform( pulse.set("pulse", 1.0f, 0.0f, 1.0f), "u_pulse" );
     source( code );
 }
 
