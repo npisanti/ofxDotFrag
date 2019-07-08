@@ -14,7 +14,7 @@ void ofx::dotfrag::Live::load( std::string path, bool watch ) {
     filepath = path;
 
     if( ! ofFilePath::isAbsolute( filepath )){
-        filepath = ofToDataPath( filepath );
+        filepath = ofFilePath::getCurrentWorkingDirectory() + "/" + filepath;
     }
 
     ofFile file( filepath );
@@ -25,7 +25,7 @@ void ofx::dotfrag::Live::load( std::string path, bool watch ) {
         }
         reload();
     }else{
-        ofLogError() << "[ofx::dotfrag::Live] file to load does not exists\n";
+        ofLogError() << "[ofx::dotfrag::Live] file to load at "<<filepath <<" does not exists\n";
     }
     
     std::string name = ofFilePath::ofFilePath::getFileName( path );
