@@ -8,7 +8,7 @@ void ofApp::setup(){
     frag.name( "live shader" );
     frag.uniform( var0.set("u_var0", 0.5f, 0.0f, 1.0f) );
     frag.uniform( var1.set("u_var1", 0.5f, 0.0f, 1.0f) );
-    frag.load( "live.frag" );
+    frag.load( "data/live.frag" );
 
     //frag.load( "live.frag", false ); // you can also load without watching for file changes
 
@@ -25,8 +25,10 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     switch (mode){
-        case 0:  break;
-
+        case 0: 
+            frag.drawTo(fbo); 
+        break;
+            
         case 1:
             if( vidGrabber.isInitialized()){
                 vidGrabber.update();
@@ -52,18 +54,8 @@ void ofApp::draw(){
 
     ofBackground(0);
 
-    switch (mode){
-        case 0:
-            ofSetColor( 255, 0, 0 );
-            frag.draw( 0, 0, ofGetWidth(), ofGetHeight() );
-        break;
-
-        
-        default: 
-            ofSetColor(255 );
-            fbo.draw( 0, 0 ); 
-        break;
-    }
+    ofSetColor(255 );
+    fbo.draw( 0, 0 ); 
 
     if(bDrawGui) gui.draw();
 }
