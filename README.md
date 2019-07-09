@@ -24,3 +24,11 @@ At the moment the shader selection includes:
 
 and an `ofx::dotfrag::Live` class for live coding.
 
+Donate
+------------ 
+I support you, you support me!    
+If you find this code useful, consider [fueling me with coffee](https://ko-fi.com/npisanti)!
+
+License
+------------ 
+Nicola Pisanti, MIT License 2018-2019.   
