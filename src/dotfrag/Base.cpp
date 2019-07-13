@@ -38,7 +38,7 @@ ofx::dotfrag::Base::Base() {
 
     ofDisableArbTex();
     if(constructed==0){
-        ofLogNotice()<<"[ofx::dotfrag::Base] disabling ARB textures for shaders\n";
+        ofLogVerbose()<<"[ofx::dotfrag::Base] disabling ARB textures for shaders";
     } 
     constructed++;
 
