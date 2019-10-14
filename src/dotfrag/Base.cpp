@@ -28,7 +28,7 @@ ofx::dotfrag::Base::Base() {
 
     bIndex = 0;
     bDelay = false;
-    buffers.resize(1);
+    buffers.clear();
 
     delay = 0;
 
@@ -265,6 +265,8 @@ void ofx::dotfrag::Base::allocate( ofFbo & fbo ) {
 }
 
 void ofx::dotfrag::Base::allocate( int w, int h ) {
+    if( buffers.size()==0 ) { buffers.resize(1); }
+    
     for(size_t i=0; i<buffers.size(); ++i ){
         if( buffers[i].getWidth()!=w || buffers[i].getHeight()!=h ){
             buffers[i].allocate( w, h );
