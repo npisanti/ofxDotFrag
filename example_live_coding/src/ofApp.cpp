@@ -8,9 +8,9 @@ void ofApp::setup(){
     frag.name( "live shader" );
     frag.uniform( var0.set("u_var0", 0.5f, 0.0f, 1.0f) );
     frag.uniform( var1.set("u_var1", 0.5f, 0.0f, 1.0f) );
-    frag.load( "data/live.frag" );
+    frag.load( ofToDataPath("live.frag") );
 
-    //frag.load( "live.frag", false ); // you can also load without watching for file changes
+    //frag.load( ofToDataPath("live.frag"), false ); // you can also load without watching for file changes
 
     gui.setup("", "settings.xml", 20, 20 );
     gui.setName("press g to close");
